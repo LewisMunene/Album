@@ -1,0 +1,232 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ============ USER & AUTH ============
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  password      String
+  avatar        String?
+  role          Role      @default(MEMBER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  memories      Memory[]
+  albums        Album[]
+  comments      Comment[]
+  familyMember  FamilyMember?
+
+  @@map("users")
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+// ============ FAMILY MEMBERS ============
+
+model FamilyMember {
+  id            String    @id @default(cuid())
+  firstName     String
+  lastName      String
+  nickname      String?
+  birthDate     DateTime?
+  deathDate     DateTime?
+  bio           String?   @db.Text
+  profilePhoto  String?
+  generation    Int       @default(1)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  userId        String?   @unique
+  user          User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  parentId      String?
+  parent        FamilyMember?  @relation("ParentChild", fields: [parentId], references: [id], onDelete: SetNull)
+  children      FamilyMember[] @relation("ParentChild")
+
+  spouseId      String?   @unique
+  spouse        FamilyMember?  @relation("Spouse", fields: [spouseId], references: [id], onDelete: SetNull)
+  spouseOf      FamilyMember?  @relation("Spouse")
+
+  memoriesFeatured  MemoryPerson[]
+  
+  @@map("family_members")
+}
+
+// ============ MEMORIES ============
+
+model Memory {
+  id            String     @id @default(cuid())
+  title         String
+  description   String?    @db.Text
+  type          MemoryType @default(PHOTO)
+  fileUrl       String
+  thumbnailUrl  String?
+  dateTaken     DateTime?
+  location      String?
+  isPublic      Boolean    @default(false)
+  viewCount     Int        @default(0)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  uploadedById  String
+  uploadedBy    User       @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
+  
+  albums        AlbumMemory[]
+  tags          MemoryTag[]
+  people        MemoryPerson[]
+  comments      Comment[]
+
+  @@index([dateTaken])
+  @@index([uploadedById])
+  @@map("memories")
+}
+
+enum MemoryType {
+  PHOTO
+  VIDEO
+  STORY
+}
+
+// ============ ALBUMS ============
+
+model Album {
+  id            String    @id @default(cuid())
+  name          String
+  description   String?   @db.Text
+  coverImageUrl String?
+  isPublic      Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  createdById   String
+  createdBy     User      @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  
+  memories      AlbumMemory[]
+
+  @@index([createdById])
+  @@map("albums")
+}
+
+model AlbumMemory {
+  albumId       String
+  album         Album     @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  
+  memoryId      String
+  memory        Memory    @relation(fields: [memoryId], references: [id], onDelete: Cascade)
+  
+  order         Int       @default(0)
+  addedAt       DateTime  @default(now())
+
+  @@id([albumId, memoryId])
+  @@map("album_memories")
+}
+
+// ============ TAGS ============
+
+model Tag {
+  id            String    @id @default(cuid())
+  name          String    @unique
+  color         String?
+  createdAt     DateTime  @default(now())
+
+  memories      MemoryTag[]
+
+  @@map("tags")
+}
+
+model MemoryTag {
+  memoryId      String
+  memory        Memory    @relation(fields: [memoryId], references: [id], onDelete: Cascade)
+  
+  tagId         String
+  tag           Tag       @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([memoryId, tagId])
+  @@map("memory_tags")
+}
+
+// ============ PEOPLE IN MEMORIES ============
+
+model MemoryPerson {
+  memoryId          String
+  memory            Memory        @relation(fields: [memoryId], references: [id], onDelete: Cascade)
+  
+  familyMemberId    String
+  familyMember      FamilyMember  @relation(fields: [familyMemberId], references: [id], onDelete: Cascade)
+
+  @@id([memoryId, familyMemberId])
+  @@map("memory_people")
+}
+
+// ============ COMMENTS ============
+
+model Comment {
+  id            String    @id @default(cuid())
+  content       String    @db.Text
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  authorId      String
+  author        User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  memoryId      String
+  memory        Memory    @relation(fields: [memoryId], references: [id], onDelete: Cascade)
+
+  @@index([memoryId])
+  @@index([authorId])
+  @@map("comments")
+}
+
+// ============ EVENTS ============
+
+model Event {
+  id            String         @id @default(cuid())
+  title         String
+  description   String?        @db.Text
+  date          DateTime
+  location      String?
+  isRecurring   Boolean        @default(false)
+  recurringType RecurringType?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([date])
+  @@map("events")
+}
+
+enum RecurringType {
+  YEARLY
+  MONTHLY
+  WEEKLY
+}
+
+// ============ TRIBUTES ============
+
+model Tribute {
+  id            String    @id @default(cuid())
+  title         String
+  content       String    @db.Text
+  coverImageUrl String?
+  honoredName   String
+  birthDate     DateTime?
+  deathDate     DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("tributes")
+}

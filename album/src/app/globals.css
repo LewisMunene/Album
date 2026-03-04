@@ -1,0 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+@import "tailwindcss";
+
+/* ============ TAILWIND V4 THEME ============ */
+@theme {
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+
+  --color-cream: #FDF8F3;
+  --color-cream-dark: #F5EDE4;
+  --color-warm-white: #FFFEF9;
+  --color-text: #3D3229;
+  --color-text-muted: #8B7355;
+  --color-accent: #C4956A;
+  --color-accent-hover: #A67B4F;
+  --color-border: #E8DDD0;
+}
+
+/* ============ CSS VARIABLES FOR JS THEME TOGGLE ============ */
+:root {
+  --color-bg: #FDF8F3;
+  --color-bg-alt: #F5EDE4;
+  --color-card: #FFFFFF;
+  --color-text: #3D3229;
+  --color-text-muted: #8B7355;
+  --color-accent: #C4956A;
+  --color-accent-hover: #A67B4F;
+  --color-border: #E8DDD0;
+  --color-polaroid: #FFFEF9;
+}
+
+.dark {
+  --color-bg: #1A1612;
+  --color-bg-alt: #252019;
+  --color-card: #2D261F;
+  --color-text: #F5EDE4;
+  --color-text-muted: #A69580;
+  --color-accent: #D4A574;
+  --color-accent-hover: #E5B885;
+  --color-border: #3D3429;
+  --color-polaroid: #2D261F;
+}
+
+/* ============ BASE STYLES ============ */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ============ UTILITY CLASSES ============ */
+.bg-main {
+  background-color: var(--color-bg);
+}
+
+.bg-alt {
+  background-color: var(--color-bg-alt);
+}
+
+.bg-card {
+  background-color: var(--color-card);
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+.border-main {
+  border-color: var(--color-border);
+}
+
+/* ============ COMPONENT CLASSES ============ */
+.btn-accent {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+  color: white;
+  box-shadow: 0 4px 14px rgba(196, 149, 106, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-accent:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(196, 149, 106, 0.4);
+}
+
+.glass {
+  background: rgba(253, 248, 243, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.dark .glass {
+  background: rgba(26, 22, 18, 0.9);
+}
+
+.polaroid {
+  background-color: var(--color-polaroid);
+  padding: 10px 10px 40px 10px;
+  border-radius: 4px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.polaroid:hover {
+  transform: rotate(0deg) scale(1.03) !important;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+}
+
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.1);
+}
+
+/* ============ TYPOGRAPHY ============ */
+.font-display {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* ============ ANIMATIONS ============ */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--rotation, -3deg));
+  }
+
+  50% {
+    transform: translateY(-12px) rotate(var(--rotation, -3deg));
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* ============ SCROLLBAR ============ */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
