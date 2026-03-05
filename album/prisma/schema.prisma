@@ -26,6 +26,7 @@ model User {
   albums        Album[]
   comments      Comment[]
   familyMember  FamilyMember?
+  sentInvitations Invitation[]
 
   @@map("users")
 }
@@ -34,6 +35,32 @@ enum Role {
   ADMIN
   MEMBER
   VIEWER
+}
+
+// ============ INVITATIONS (Magic Links) ============
+
+model Invitation {
+  id            String           @id @default(cuid())
+  email         String
+  token         String           @unique
+  status        InvitationStatus @default(PENDING)
+  expiresAt     DateTime
+  createdAt     DateTime         @default(now())
+  usedAt        DateTime?
+
+  invitedById   String
+  invitedBy     User             @relation(fields: [invitedById], references: [id], onDelete: Cascade)
+
+  @@index([email])
+  @@index([token])
+  @@map("invitations")
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  REVOKED
 }
 
 // ============ FAMILY MEMBERS ============

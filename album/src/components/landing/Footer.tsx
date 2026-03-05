@@ -32,6 +32,14 @@ export default function Footer() {
                         <Link href="#" className="hover:opacity-70 transition-opacity">Privacy</Link>
                         <Link href="#" className="hover:opacity-70 transition-opacity">Terms</Link>
                         <Link href="#" className="hover:opacity-70 transition-opacity">Contact</Link>
+                        <Link
+                            href="https://www.linkedin.com/in/lewis-muthee-4990121aa/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-emerald-500 to-red-700 text-xs font-medium animate-pulse hover:scale-105 transition-transform duration-300 block text-center cursor-pointer"
+                        >
+                            Built by the amazing Lewis Munene Muthee ;D
+                        </Link>
                     </div>
 
                     {/* Copyright */}

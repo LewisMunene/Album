@@ -2,7 +2,7 @@
 import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import bcrypt from 'bcryptjs'
-import prisma from './prisma'
+import prisma from '@/lib/prisma'
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -14,11 +14,11 @@ export const authOptions: NextAuthOptions = {
             },
             async authorize(credentials) {
                 if (!credentials?.email || !credentials?.password) {
-                    throw new Error('Please enter your email and password')
+                    throw new Error('Email and password are required')
                 }
 
                 const user = await prisma.user.findUnique({
-                    where: { email: credentials.email }
+                    where: { email: credentials.email.toLowerCase() }
                 })
 
                 if (!user) {
@@ -45,7 +45,11 @@ export const authOptions: NextAuthOptions = {
     ],
     session: {
         strategy: 'jwt',
-        maxAge: 30 * 24 * 60 * 60,
+        maxAge: 30 * 24 * 60 * 60, // 30 days
+    },
+    pages: {
+        signIn: '/auth/login',
+        error: '/auth/login',
     },
     callbacks: {
         async jwt({ token, user }) {
@@ -63,9 +67,4 @@ export const authOptions: NextAuthOptions = {
             return session
         }
     },
-    pages: {
-        signIn: '/auth/login',
-        error: '/auth/login',
-    },
-    secret: process.env.NEXTAUTH_SECRET,
 }
