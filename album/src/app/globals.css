@@ -1,32 +1,9 @@
+/* src/app/globals.css */
+/* Muthee Family Album - Global Styles */
+
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
-@import "tailwindcss";
 
-/* Fix Tailwind v4 transparent borders */
-@layer base {
-
-  *,
-  ::after,
-  ::before {
-    border-color: currentColor;
-  }
-}
-
-/* ============ TAILWIND V4 THEME ============ */
-@theme {
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-body: 'DM Sans', system-ui, sans-serif;
-
-  --color-cream: #FDF8F3;
-  --color-cream-dark: #F5EDE4;
-  --color-warm-white: #FFFEF9;
-  --color-text: #3D3229;
-  --color-text-muted: #8B7355;
-  --color-accent: #C4956A;
-  --color-accent-hover: #A67B4F;
-  --color-border: #E8DDD0;
-}
-
-/* ============ CSS VARIABLES FOR JS THEME TOGGLE ============ */
+/* ============ CSS VARIABLES ============ */
 :root {
   --color-bg: #FDF8F3;
   --color-bg-alt: #F5EDE4;
@@ -37,6 +14,14 @@
   --color-accent-hover: #A67B4F;
   --color-border: #E8DDD0;
   --color-polaroid: #FFFEF9;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
 }
 
 .dark {
@@ -51,31 +36,101 @@
   --color-polaroid: #2D261F;
 }
 
-/* ============ BASE STYLES ============ */
-* {
+/* ============ RESET & BASE ============ */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
   background-color: var(--color-bg);
   color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* ============ TYPOGRAPHY ============ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+strong,
+b {
+  font-weight: 600;
+}
+
+/* ============ IMAGES ============ */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+/* ============ FORMS ============ */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
 /* ============ UTILITY CLASSES ============ */
-.bg-main {
-  background-color: var(--color-bg);
+.font-display {
+  font-family: var(--font-display);
 }
 
-.bg-alt {
-  background-color: var(--color-bg-alt);
-}
-
-.bg-card {
-  background-color: var(--color-card);
+.text-center {
+  text-align: center;
 }
 
 .text-muted {
@@ -86,138 +141,51 @@ body {
   color: var(--color-accent);
 }
 
-.border-main {
-  border-color: var(--color-border);
-}
-
-/* ============ COMPONENT CLASSES ============ */
-.btn-accent {
-  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
-  color: white;
-  box-shadow: 0 4px 14px rgba(196, 149, 106, 0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.btn-accent:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(196, 149, 106, 0.4);
-}
-
-.glass {
-  background: rgba(253, 248, 243, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.dark .glass {
-  background: rgba(26, 22, 18, 0.9);
-}
-
-.polaroid {
-  background-color: var(--color-polaroid);
-  padding: 10px 10px 40px 10px;
-  border-radius: 4px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.polaroid:hover {
-  transform: rotate(0deg) scale(1.03) !important;
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
-}
-
-.card-hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.1);
-}
-
-/* ============ TYPOGRAPHY ============ */
-.font-display {
-  font-family: 'Playfair Display', Georgia, serif;
-}
-
-
-
-/* ============ ANIMATIONS ============ */
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0) rotate(var(--rotation, -3deg));
-  }
-
-  50% {
-    transform: translateY(-12px) rotate(var(--rotation, -3deg));
-  }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
-}
-
-.animate-slide-up {
-  animation: slideUp 0.6s ease-out forwards;
-}
-
-.animate-slide-in-right {
-  animation: slideInRight 0.3s ease-out forwards;
-}
-
-.animate-float {
-  animation: float 5s ease-in-out infinite;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-  }
-
-  to {
-    transform: translateX(0);
-  }
-}
-
 /* ============ SCROLLBAR ============ */
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
 }
 
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+::-webkit-scrollbar-track {
+  background: var(--color-bg-alt);
 }
 
-/* Force box model and remove any resets affecting shadows/borders */
-.rounded-2xl {
-  border-radius: 1rem !important;
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 5px;
 }
 
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* Firefox */
 * {
-  border-color: inherit;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) var(--color-bg-alt);
+}
+
+/* ============ SELECTION ============ */
+::selection {
+  background-color: var(--color-accent);
+  color: white;
+}
+
+/* ============ FOCUS VISIBLE ============ */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ============ REDUCED MOTION ============ */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
