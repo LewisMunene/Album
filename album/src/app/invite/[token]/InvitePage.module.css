@@ -1,0 +1,493 @@
+/* src/app/invite/[token]/InvitePage.module.css */
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FDF8F3;
+    padding: 24px;
+}
+
+.content {
+    width: 100%;
+    max-width: 448px;
+}
+
+/* Loading State */
+.loadingState {
+    text-align: center;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 16px;
+    color: #C4956A;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loadingText {
+    color: #8B7355;
+}
+
+/* Error States */
+.errorState {
+    text-align: center;
+    max-width: 400px;
+}
+
+.errorIcon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    background-color: #FEE2E2;
+}
+
+.errorIcon svg {
+    width: 32px;
+    height: 32px;
+    color: #EF4444;
+}
+
+.errorTitle {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #3D3229;
+    margin-bottom: 12px;
+}
+
+.errorDescription {
+    color: #8B7355;
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+.homeLink {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 500;
+    color: #C4956A;
+    border: 2px solid #C4956A;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.homeLink:hover {
+    background-color: #C4956A;
+    color: white;
+}
+
+/* Success State */
+.successState {
+    text-align: center;
+    max-width: 400px;
+}
+
+.successIcon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    background-color: #D1FAE5;
+}
+
+.successIcon svg {
+    width: 32px;
+    height: 32px;
+    color: #059669;
+}
+
+.successTitle {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #3D3229;
+    margin-bottom: 12px;
+}
+
+.successDescription {
+    color: #8B7355;
+    margin-bottom: 8px;
+}
+
+.successSubtext {
+    font-size: 0.875rem;
+    color: #8B7355;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.logoIcon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    background: linear-gradient(135deg, #C4956A, #A67B4F);
+    box-shadow: 0 8px 24px rgba(196, 149, 106, 0.3);
+}
+
+.logoIcon svg {
+    width: 28px;
+    height: 28px;
+    color: white;
+    fill: white;
+}
+
+.title {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #3D3229;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #8B7355;
+}
+
+/* Progress Steps */
+.progressSteps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.stepCircle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.stepCircleActive {
+    background-color: #C4956A;
+    color: white;
+}
+
+.stepCircleInactive {
+    background-color: #E8DDD0;
+    color: #8B7355;
+}
+
+.stepLine {
+    width: 48px;
+    height: 4px;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.stepLineActive {
+    background-color: #C4956A;
+}
+
+.stepLineInactive {
+    background-color: #E8DDD0;
+}
+
+/* Form Card */
+.card {
+    padding: 32px;
+    border-radius: 20px;
+    background-color: white;
+    border: 1px solid #E8DDD0;
+    box-shadow: 0 4px 24px rgba(61, 50, 41, 0.08);
+}
+
+/* Email Display */
+.emailSection {
+    margin-bottom: 24px;
+}
+
+.label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #3D3229;
+    margin-bottom: 8px;
+}
+
+.labelOptional {
+    font-weight: 400;
+    color: #8B7355;
+}
+
+.emailDisplay {
+    padding: 14px 16px;
+    border-radius: 12px;
+    background-color: #F5EDE4;
+    border: 1px solid #E8DDD0;
+    color: #8B7355;
+}
+
+/* Step Text */
+.stepText {
+    font-size: 0.875rem;
+    color: #8B7355;
+    margin-bottom: 20px;
+}
+
+/* Error Message */
+.errorMessage {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    background-color: #FEF2F2;
+    border: 1px solid #FECACA;
+}
+
+.errorMessage svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: #DC2626;
+}
+
+.errorMessage p {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #DC2626;
+}
+
+/* Form Fields */
+.fieldRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.field {
+    margin-bottom: 20px;
+}
+
+.inputWrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background-color: #FDF8F3;
+    border: 2px solid #E8DDD0;
+    transition: border-color 0.2s ease;
+}
+
+.inputWrapper:focus-within {
+    border-color: #C4956A;
+}
+
+.inputWrapper svg {
+    width: 20px;
+    height: 20px;
+    color: #8B7355;
+    flex-shrink: 0;
+}
+
+.inputWrapper input,
+.inputWrapper textarea {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: #3D3229;
+}
+
+.inputWrapper input::placeholder,
+.inputWrapper textarea::placeholder {
+    color: rgba(139, 115, 85, 0.6);
+}
+
+.inputWrapper textarea {
+    resize: none;
+    min-height: 60px;
+}
+
+.textareaWrapper {
+    align-items: flex-start;
+}
+
+.textareaWrapper svg {
+    margin-top: 2px;
+}
+
+.passwordToggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #8B7355;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+}
+
+.passwordToggle:hover {
+    color: #3D3229;
+}
+
+.helperText {
+    font-size: 0.75rem;
+    color: #8B7355;
+    margin-top: 6px;
+}
+
+/* Welcome Box */
+.welcomeBox {
+    padding: 16px;
+    border-radius: 12px;
+    background-color: #F5EDE4;
+    border: 1px solid #E8DDD0;
+    margin-bottom: 24px;
+}
+
+.welcomeBox p {
+    font-size: 0.875rem;
+    color: #3D3229;
+}
+
+.welcomeBox strong {
+    font-weight: 600;
+}
+
+.welcomeBox span {
+    color: #8B7355;
+}
+
+/* Buttons */
+.primaryButton {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, #C4956A, #A67B4F);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 8px 24px rgba(196, 149, 106, 0.4);
+}
+
+.primaryButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(196, 149, 106, 0.5);
+}
+
+.primaryButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.buttonContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.buttonContent svg {
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 12px;
+}
+
+.secondaryButton {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    border: 2px solid #E8DDD0;
+    background: transparent;
+    color: #8B7355;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.secondaryButton:hover {
+    background-color: #F5EDE4;
+}
+
+.primaryButtonFlex {
+    flex: 2;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 0.875rem;
+    color: #8B7355;
+}
+
+.footer a {
+    font-weight: 500;
+    color: #C4956A;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .container {
+        padding: 16px;
+    }
+
+    .card {
+        padding: 24px;
+    }
+
+    .fieldRow {
+        grid-template-columns: 1fr;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+}

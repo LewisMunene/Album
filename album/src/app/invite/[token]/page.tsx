@@ -12,8 +12,12 @@ import {
     EyeOff,
     AlertCircle,
     CheckCircle,
-    Loader2
+    Loader2,
+    Calendar,
+    FileText,
+    Smile
 } from 'lucide-react'
+import styles from './InvitePage.module.css'
 
 type PageState = 'loading' | 'valid' | 'invalid' | 'expired' | 'used' | 'success'
 
@@ -23,18 +27,27 @@ interface PageProps {
 
 export default function AcceptInvitationPage({ params }: PageProps) {
     const router = useRouter()
-    // Unwrap params with React.use()
     const { token } = use(params)
 
     const [pageState, setPageState] = useState<PageState>('loading')
     const [inviteData, setInviteData] = useState<{ email: string; invitedBy: string } | null>(null)
 
-    const [name, setName] = useState('')
+    // Account fields
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
+
+    // Family member profile fields
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [nickname, setNickname] = useState('')
+    const [birthDate, setBirthDate] = useState('')
+    const [bio, setBio] = useState('')
+
+    // UI state
     const [error, setError] = useState('')
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [currentStep, setCurrentStep] = useState(1)
 
     // Validate token on mount
     useEffect(() => {
@@ -61,6 +74,21 @@ export default function AcceptInvitationPage({ params }: PageProps) {
         validateToken()
     }, [token])
 
+    const handleNextStep = () => {
+        setError('')
+
+        if (!firstName.trim()) {
+            setError('Please enter your first name')
+            return
+        }
+        if (!lastName.trim()) {
+            setError('Please enter your last name')
+            return
+        }
+
+        setCurrentStep(2)
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setError('')
@@ -81,7 +109,14 @@ export default function AcceptInvitationPage({ params }: PageProps) {
             const response = await fetch(`/api/invite/${token}/accept`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, password }),
+                body: JSON.stringify({
+                    password,
+                    firstName,
+                    lastName,
+                    nickname: nickname || null,
+                    birthDate: birthDate || null,
+                    bio: bio || null,
+                }),
             })
 
             const data = await response.json()
@@ -105,10 +140,10 @@ export default function AcceptInvitationPage({ params }: PageProps) {
     // Loading state
     if (pageState === 'loading') {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-[#FDF8F3]">
-                <div className="text-center">
-                    <Loader2 className="w-10 h-10 animate-spin mx-auto mb-4 text-[#C4956A]" />
-                    <p className="text-[#8B7355]">Validating invitation...</p>
+            <div className={styles.container}>
+                <div className={styles.loadingState}>
+                    <Loader2 className={styles.spinner} />
+                    <p className={styles.loadingText}>Validating invitation...</p>
                 </div>
             </div>
         )
@@ -117,25 +152,22 @@ export default function AcceptInvitationPage({ params }: PageProps) {
     // Invalid/expired/used states
     if (pageState !== 'valid' && pageState !== 'success') {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-[#FDF8F3] px-6">
-                <div className="text-center max-w-md">
-                    <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 bg-red-100">
-                        <AlertCircle className="w-8 h-8 text-red-500" />
+            <div className={styles.container}>
+                <div className={styles.errorState}>
+                    <div className={styles.errorIcon}>
+                        <AlertCircle />
                     </div>
-                    <h1 className="font-display text-2xl font-semibold mb-3 text-[#3D3229]">
+                    <h1 className={styles.errorTitle}>
                         {pageState === 'expired' && 'Invitation Expired'}
                         {pageState === 'used' && 'Invitation Already Used'}
                         {pageState === 'invalid' && 'Invitation Not Valid'}
                     </h1>
-                    <p className="text-[#8B7355] mb-6">
+                    <p className={styles.errorDescription}>
                         {pageState === 'expired' && 'This invitation link has expired. Please ask for a new invitation.'}
                         {pageState === 'used' && 'This invitation has already been used to create an account.'}
                         {pageState === 'invalid' && 'Failed to validate invitation. Please try again.'}
                     </p>
-                    <Link
-                        href="/"
-                        className="inline-block px-6 py-3 rounded-xl font-medium text-[#C4956A] border-2 border-[#C4956A] hover:bg-[#C4956A] hover:text-white transition-colors"
-                    >
+                    <Link href="/" className={styles.homeLink}>
                         Return to Homepage
                     </Link>
                 </div>
@@ -146,155 +178,239 @@ export default function AcceptInvitationPage({ params }: PageProps) {
     // Success state
     if (pageState === 'success') {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-[#FDF8F3] px-6">
-                <div className="text-center max-w-md">
-                    <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 bg-green-100">
-                        <CheckCircle className="w-8 h-8 text-green-600" />
+            <div className={styles.container}>
+                <div className={styles.successState}>
+                    <div className={styles.successIcon}>
+                        <CheckCircle />
                     </div>
-                    <h1 className="font-display text-2xl font-semibold mb-3 text-[#3D3229]">
-                        Welcome to the Family!
-                    </h1>
-                    <p className="text-[#8B7355] mb-2">
+                    <h1 className={styles.successTitle}>Welcome to the Family!</h1>
+                    <p className={styles.successDescription}>
                         Your account has been created successfully.
                     </p>
-                    <p className="text-sm text-[#8B7355]">
-                        Redirecting to login...
-                    </p>
+                    <p className={styles.successSubtext}>Redirecting to login...</p>
                 </div>
             </div>
         )
     }
 
-    // Valid invitation - show registration form
+    // Valid invitation - show multi-step registration form
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#FDF8F3] px-6 py-12">
-            <div className="w-full max-w-md">
+        <div className={styles.container}>
+            <div className={styles.content}>
                 {/* Header */}
-                <div className="text-center mb-8">
-                    <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 bg-gradient-to-br from-[#C4956A] to-[#A67B4F] shadow-lg shadow-[#C4956A]/30">
-                        <Heart className="w-7 h-7 text-white fill-white" />
+                <div className={styles.header}>
+                    <div className={styles.logoIcon}>
+                        <Heart />
                     </div>
-                    <h1 className="font-display text-2xl font-semibold mb-2 text-[#3D3229]">
-                        Join the Family Album
-                    </h1>
-                    <p className="text-[#8B7355]">
-                        You've been invited to join by {inviteData?.invitedBy}
+                    <h1 className={styles.title}>Join the Family Album</h1>
+                    <p className={styles.subtitle}>
+                        You&apos;ve been invited by {inviteData?.invitedBy}
                     </p>
                 </div>
 
+                {/* Progress Steps */}
+                <div className={styles.progressSteps}>
+                    <div className={`${styles.stepCircle} ${currentStep >= 1 ? styles.stepCircleActive : styles.stepCircleInactive}`}>
+                        1
+                    </div>
+                    <div className={`${styles.stepLine} ${currentStep >= 2 ? styles.stepLineActive : styles.stepLineInactive}`} />
+                    <div className={`${styles.stepCircle} ${currentStep >= 2 ? styles.stepCircleActive : styles.stepCircleInactive}`}>
+                        2
+                    </div>
+                </div>
+
                 {/* Form Card */}
-                <div className="p-8 rounded-2xl bg-white border border-[#E8DDD0] shadow-[0_4px_24px_rgba(61,50,41,0.08)]">
-                    {/* Email (read-only) */}
-                    <div className="mb-6">
-                        <label className="block text-sm font-medium mb-2 text-[#3D3229]">
-                            Email address
-                        </label>
-                        <div className="px-4 py-3.5 rounded-xl bg-[#F5EDE4] border border-[#E8DDD0] text-[#8B7355]">
-                            {inviteData?.email}
-                        </div>
-                        <p className="text-xs mt-1.5 text-[#8B7355]">
-                            This email was used for your invitation
-                        </p>
+                <div className={styles.card}>
+                    {/* Email Display */}
+                    <div className={styles.emailSection}>
+                        <label className={styles.label}>Email address</label>
+                        <div className={styles.emailDisplay}>{inviteData?.email}</div>
                     </div>
 
-                    {/* Error message */}
+                    {/* Error Message */}
                     {error && (
-                        <div className="flex items-center gap-3 p-4 rounded-xl mb-6 bg-red-50 border border-red-200">
-                            <AlertCircle className="w-5 h-5 flex-shrink-0 text-red-600" />
-                            <p className="text-sm font-medium text-red-600">{error}</p>
+                        <div className={styles.errorMessage}>
+                            <AlertCircle />
+                            <p>{error}</p>
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit}>
-                        {/* Name */}
-                        <div className="mb-5">
-                            <label className="block text-sm font-medium mb-2 text-[#3D3229]">
-                                Full name
-                            </label>
-                            <div className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-[#FDF8F3] border-2 border-[#E8DDD0] focus-within:border-[#C4956A] transition-colors">
-                                <User className="w-5 h-5 text-[#8B7355]" />
-                                <input
-                                    type="text"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    placeholder="Your full name"
-                                    className="flex-1 bg-transparent outline-none text-[#3D3229] placeholder:text-[#8B7355]/60"
-                                    required
-                                />
-                            </div>
-                        </div>
+                    {/* Step 1: Profile Information */}
+                    {currentStep === 1 && (
+                        <div>
+                            <p className={styles.stepText}>Step 1: Tell us about yourself</p>
 
-                        {/* Password */}
-                        <div className="mb-5">
-                            <label className="block text-sm font-medium mb-2 text-[#3D3229]">
-                                Password
-                            </label>
-                            <div className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-[#FDF8F3] border-2 border-[#E8DDD0] focus-within:border-[#C4956A] transition-colors">
-                                <Lock className="w-5 h-5 text-[#8B7355]" />
-                                <input
-                                    type={showPassword ? 'text' : 'password'}
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    placeholder="••••••••"
-                                    className="flex-1 bg-transparent outline-none text-[#3D3229] placeholder:text-[#8B7355]/60"
-                                    required
-                                    minLength={6}
-                                />
+                            {/* First Name & Last Name */}
+                            <div className={styles.fieldRow}>
+                                <div>
+                                    <label className={styles.label}>First name *</label>
+                                    <div className={styles.inputWrapper}>
+                                        <User />
+                                        <input
+                                            type="text"
+                                            value={firstName}
+                                            onChange={(e) => setFirstName(e.target.value)}
+                                            placeholder="First"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className={styles.label}>Last name *</label>
+                                    <div className={styles.inputWrapper}>
+                                        <input
+                                            type="text"
+                                            value={lastName}
+                                            onChange={(e) => setLastName(e.target.value)}
+                                            placeholder="Last"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Nickname */}
+                            <div className={styles.field}>
+                                <label className={styles.label}>
+                                    Nickname <span className={styles.labelOptional}>(optional)</span>
+                                </label>
+                                <div className={styles.inputWrapper}>
+                                    <Smile />
+                                    <input
+                                        type="text"
+                                        value={nickname}
+                                        onChange={(e) => setNickname(e.target.value)}
+                                        placeholder="What does family call you?"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Birth Date */}
+                            <div className={styles.field}>
+                                <label className={styles.label}>
+                                    Date of birth <span className={styles.labelOptional}>(optional)</span>
+                                </label>
+                                <div className={styles.inputWrapper}>
+                                    <Calendar />
+                                    <input
+                                        type="date"
+                                        value={birthDate}
+                                        onChange={(e) => setBirthDate(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Bio */}
+                            <div className={styles.field}>
+                                <label className={styles.label}>
+                                    Short bio <span className={styles.labelOptional}>(optional)</span>
+                                </label>
+                                <div className={`${styles.inputWrapper} ${styles.textareaWrapper}`}>
+                                    <FileText />
+                                    <textarea
+                                        value={bio}
+                                        onChange={(e) => setBio(e.target.value)}
+                                        placeholder="Tell us a bit about yourself..."
+                                        rows={3}
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Next Button */}
+                            <button
+                                type="button"
+                                onClick={handleNextStep}
+                                className={styles.primaryButton}
+                            >
+                                Continue to Password
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Step 2: Password */}
+                    {currentStep === 2 && (
+                        <form onSubmit={handleSubmit}>
+                            <p className={styles.stepText}>Step 2: Create your password</p>
+
+                            {/* Welcome Box */}
+                            <div className={styles.welcomeBox}>
+                                <p>
+                                    Welcome, <strong>{firstName} {lastName}</strong>
+                                    {nickname && <span> ({nickname})</span>}!
+                                </p>
+                            </div>
+
+                            {/* Password */}
+                            <div className={styles.field}>
+                                <label className={styles.label}>Password</label>
+                                <div className={styles.inputWrapper}>
+                                    <Lock />
+                                    <input
+                                        type={showPassword ? 'text' : 'password'}
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        placeholder="••••••••"
+                                        required
+                                        minLength={6}
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className={styles.passwordToggle}
+                                    >
+                                        {showPassword ? <EyeOff /> : <Eye />}
+                                    </button>
+                                </div>
+                                <p className={styles.helperText}>Must be at least 6 characters</p>
+                            </div>
+
+                            {/* Confirm Password */}
+                            <div className={styles.field}>
+                                <label className={styles.label}>Confirm password</label>
+                                <div className={styles.inputWrapper}>
+                                    <Lock />
+                                    <input
+                                        type={showPassword ? 'text' : 'password'}
+                                        value={confirmPassword}
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                        placeholder="••••••••"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className={styles.buttonGroup}>
                                 <button
                                     type="button"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    className="text-[#8B7355] hover:text-[#3D3229]"
+                                    onClick={() => setCurrentStep(1)}
+                                    className={styles.secondaryButton}
                                 >
-                                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                    Back
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className={`${styles.primaryButton} ${styles.primaryButtonFlex}`}
+                                >
+                                    {isSubmitting ? (
+                                        <span className={styles.buttonContent}>
+                                            <Loader2 />
+                                            Creating...
+                                        </span>
+                                    ) : (
+                                        'Create Account'
+                                    )}
                                 </button>
                             </div>
-                            <p className="text-xs mt-1.5 text-[#8B7355]">
-                                Must be at least 6 characters
-                            </p>
-                        </div>
-
-                        {/* Confirm Password */}
-                        <div className="mb-6">
-                            <label className="block text-sm font-medium mb-2 text-[#3D3229]">
-                                Confirm password
-                            </label>
-                            <div className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-[#FDF8F3] border-2 border-[#E8DDD0] focus-within:border-[#C4956A] transition-colors">
-                                <Lock className="w-5 h-5 text-[#8B7355]" />
-                                <input
-                                    type={showPassword ? 'text' : 'password'}
-                                    value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                    placeholder="••••••••"
-                                    className="flex-1 bg-transparent outline-none text-[#3D3229] placeholder:text-[#8B7355]/60"
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        {/* Submit */}
-                        <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="w-full py-3.5 rounded-xl text-white font-semibold transition-all hover:-translate-y-0.5 hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 bg-gradient-to-br from-[#C4956A] to-[#A67B4F] shadow-lg shadow-[#C4956A]/40"
-                        >
-                            {isSubmitting ? (
-                                <span className="flex items-center justify-center gap-2">
-                                    <Loader2 className="w-5 h-5 animate-spin" />
-                                    Creating account...
-                                </span>
-                            ) : (
-                                'Create Account'
-                            )}
-                        </button>
-                    </form>
+                        </form>
+                    )}
                 </div>
 
                 {/* Footer */}
-                <p className="text-center mt-6 text-sm text-[#8B7355]">
+                <p className={styles.footer}>
                     Already have an account?{' '}
-                    <Link href="/auth/login" className="font-medium text-[#C4956A] hover:underline">
-                        Sign in
-                    </Link>
+                    <Link href="/auth/login">Sign in</Link>
                 </p>
             </div>
         </div>

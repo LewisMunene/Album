@@ -571,6 +571,25 @@
     margin-bottom: 16px;
 }
 
+/* Memory Card Image Wrapper - for On This Day section */
+.memoryImageWrapper {
+    position: relative;
+    width: 100%;
+    height: 80px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    background-color: var(--color-bg-alt);
+}
+
+.memoryImageWrapper img {
+    transition: transform 0.3s ease;
+}
+
+.memoryCard:hover .memoryImageWrapper img {
+    transform: scale(1.05);
+}
+
 .memoryYear {
     font-size: 0.85rem;
     font-weight: 600;
