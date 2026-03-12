@@ -1,0 +1,629 @@
+/* GalleryPage.module.css */
+
+.page {
+    min-height: 100vh;
+    background: var(--color-bg);
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+
+.header {
+    padding-top: 5rem;
+    padding-bottom: 1.5rem;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 40;
+}
+
+.headerContainer {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.headerTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.title {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+}
+
+.subtitle {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin: 0.25rem 0 0;
+}
+
+.headerActions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* View Toggle */
+.viewToggle {
+    display: flex;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+}
+
+.viewBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    background: transparent;
+    border: none;
+    border-radius: 0.375rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.viewBtn:hover {
+    color: var(--color-text);
+}
+
+.viewBtnActive {
+    background: var(--color-card);
+    color: var(--color-accent);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.viewBtn svg {
+    width: 1.125rem;
+    height: 1.125rem;
+}
+
+/* Sort */
+.sortWrapper {
+    position: relative;
+}
+
+.sortSelect {
+    appearance: none;
+    padding: 0.625rem 2.25rem 0.625rem 1rem;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-text);
+    cursor: pointer;
+}
+
+.sortSelect:focus {
+    outline: none;
+    border-color: var(--color-accent);
+}
+
+.sortIcon {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-text-muted);
+    pointer-events: none;
+}
+
+/* Search & Filter Bar */
+.searchFilterBar {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.searchWrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0 1rem;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+}
+
+.searchWrapper svg {
+    width: 1.125rem;
+    height: 1.125rem;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+}
+
+.searchWrapper input {
+    flex: 1;
+    padding: 0.75rem 0;
+    background: transparent;
+    border: none;
+    font-size: 0.9375rem;
+    color: var(--color-text);
+    outline: none;
+}
+
+.searchWrapper input::placeholder {
+    color: var(--color-text-muted);
+}
+
+.clearSearch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: var(--color-bg-alt);
+    border: none;
+    border-radius: 50%;
+    color: var(--color-text-muted);
+    cursor: pointer;
+}
+
+.clearSearch:hover {
+    background: var(--color-border);
+    color: var(--color-text);
+}
+
+.clearSearch svg {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+.filterToggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.filterToggle:hover {
+    border-color: var(--color-accent);
+}
+
+.filterToggleActive {
+    border-color: var(--color-accent);
+    background: rgba(196, 149, 106, 0.1);
+}
+
+.filterToggle svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+.filterBadge {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    background: var(--color-accent);
+    border-radius: 50%;
+}
+
+/* Filter Panel */
+.filterPanel {
+    margin-top: 1rem;
+    padding: 1.25rem;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.filterGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filterGroup label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+}
+
+.filterChips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.filterChip {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 0.875rem;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 2rem;
+    font-size: 0.8125rem;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filterChip:hover {
+    border-color: var(--color-accent);
+}
+
+.filterChipActive {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: white;
+}
+
+.filterChip svg {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+.filterSelect {
+    padding: 0.625rem 1rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-text);
+    max-width: 250px;
+}
+
+.filterSelect:focus {
+    outline: none;
+    border-color: var(--color-accent);
+}
+
+.tagChips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tagChip {
+    padding: 0.375rem 0.75rem;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    border-radius: 2rem;
+    font-size: 0.75rem;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tagChip:hover {
+    border-color: var(--color-accent);
+}
+
+.tagChipActive {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: white;
+}
+
+.clearFilters {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: none;
+    font-size: 0.875rem;
+    color: var(--color-accent);
+    cursor: pointer;
+    align-self: flex-start;
+}
+
+.clearFilters svg {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+/* ============================================
+   MAIN / GALLERY
+   ============================================ */
+
+.main {
+    padding: 2rem 0;
+}
+
+.mainContainer {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Empty State */
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.emptyState svg {
+    width: 4rem;
+    height: 4rem;
+    color: var(--color-text-muted);
+    opacity: 0.5;
+    margin-bottom: 1.5rem;
+}
+
+.emptyState h2 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 0.5rem;
+}
+
+.emptyState p {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    margin: 0 0 1.5rem;
+}
+
+.clearFiltersBtn {
+    padding: 0.75rem 1.5rem;
+    background: var(--color-accent);
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+    cursor: pointer;
+}
+
+/* Gallery Grid */
+.gallery {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 640px) {
+    .gallery {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .gallery {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 1280px) {
+    .gallery {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* Masonry View */
+.galleryMasonry {
+    columns: 2;
+    column-gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+    .galleryMasonry {
+        columns: 3;
+    }
+}
+
+@media (min-width: 1024px) {
+    .galleryMasonry {
+        columns: 4;
+    }
+}
+
+@media (min-width: 1280px) {
+    .galleryMasonry {
+        columns: 5;
+    }
+}
+
+.galleryMasonry .memoryCard {
+    break-inside: avoid;
+    margin-bottom: 1.25rem;
+}
+
+/* Memory Card */
+.memoryCard {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.memoryCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    border-color: var(--color-accent);
+}
+
+.memoryCard:hover .memoryOverlay {
+    opacity: 1;
+}
+
+.memoryImage {
+    position: relative;
+    aspect-ratio: 1;
+    background: var(--color-bg-alt);
+}
+
+.galleryMasonry .memoryImage {
+    aspect-ratio: auto;
+    min-height: 150px;
+}
+
+.memoryPlaceholder {
+    width: 100%;
+    height: 100%;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+}
+
+.memoryPlaceholder svg {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.typeBadge {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 0.375rem;
+    color: white;
+}
+
+.typeBadge svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+.commentBadge {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 1rem;
+    color: white;
+    font-size: 0.75rem;
+}
+
+.commentBadge svg {
+    width: 0.75rem;
+    height: 0.75rem;
+}
+
+.memoryOverlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent 60%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.memoryOverlay h3 {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: white;
+    margin: 0 0 0.5rem;
+}
+
+.overlayTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+}
+
+.overlayTags span {
+    padding: 0.25rem 0.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 1rem;
+    font-size: 0.6875rem;
+    color: white;
+}
+
+.memoryInfo {
+    padding: 0.875rem;
+}
+
+.memoryTitle {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 0.375rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.memoryMeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+}
+
+.memoryMeta span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.memoryMeta svg {
+    width: 0.6875rem;
+    height: 0.6875rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .headerTop {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .headerActions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .searchFilterBar {
+        flex-direction: column;
+    }
+
+    .filterToggle {
+        width: 100%;
+        justify-content: center;
+    }
+}

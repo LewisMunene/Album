@@ -1,0 +1,1336 @@
+/* AlbumDetail.module.css - Complete styles for album detail page */
+
+.page {
+    min-height: 100vh;
+    background: var(--color-bg);
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(253, 248, 243, 0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.headerInner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.backBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.backBtn:hover {
+    border-color: var(--color-accent);
+}
+
+.backBtn svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+.headerActions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Add Memories Dropdown */
+.addDropdownWrapper {
+    position: relative;
+}
+
+.addMemoriesBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(196, 149, 106, 0.25);
+}
+
+.addMemoriesBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(196, 149, 106, 0.35);
+}
+
+.addMemoriesBtn svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+.dropdownBackdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+}
+
+.addDropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    width: 240px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    z-index: 50;
+    animation: dropdownSlide 0.2s ease;
+}
+
+@keyframes dropdownSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.addDropdownItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    width: 100%;
+    padding: 1rem;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.addDropdownItem:hover {
+    background: var(--color-bg-alt);
+}
+
+.addDropdownItem:not(:last-child) {
+    border-bottom: 1px solid var(--color-border);
+}
+
+.addDropdownItem svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--color-accent);
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+}
+
+.addDropdownItem div {
+    flex: 1;
+}
+
+.addDropdownItem span {
+    display: block;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.addDropdownItem p {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin: 0.25rem 0 0;
+}
+
+.actionBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.actionBtn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.actionBtn svg {
+    width: 1.125rem;
+    height: 1.125rem;
+}
+
+/* Menu */
+.menuWrapper {
+    position: relative;
+}
+
+.menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    min-width: 180px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    z-index: 50;
+}
+
+.menuItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: none;
+    border: none;
+    font-size: 0.875rem;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.menuItem:hover {
+    background: var(--color-bg-alt);
+}
+
+.menuItem svg {
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-text-muted);
+}
+
+.menuItemDanger {
+    color: #dc2626;
+}
+
+.menuItemDanger svg {
+    color: #dc2626;
+}
+
+/* ============================================
+   ALBUM INFO
+   ============================================ */
+
+.albumInfo {
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.albumInfoInner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.albumTitle {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 600;
+    font-style: italic;
+    color: var(--color-text);
+    margin: 0 0 0.5rem;
+}
+
+.albumDescription {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    margin: 0 0 1rem;
+}
+
+.albumMeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+}
+
+.albumMeta span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.albumMeta svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* ============================================
+   MAIN / MEMORIES GRID
+   ============================================ */
+
+.main {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.emptyIcon {
+    width: 5rem;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-alt);
+    border-radius: 50%;
+    margin-bottom: 1.5rem;
+}
+
+.emptyIcon svg {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: var(--color-text-muted);
+}
+
+.emptyState h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 0.5rem;
+}
+
+.emptyState p {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    margin: 0 0 1.5rem;
+}
+
+.emptyActions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.emptyButtonPrimary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.emptyButtonPrimary:hover {
+    box-shadow: 0 4px 12px rgba(196, 149, 106, 0.3);
+}
+
+.emptyButtonPrimary svg {
+    width: 1.125rem;
+    height: 1.125rem;
+}
+
+.emptyButtonSecondary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    background: var(--color-card);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.emptyButtonSecondary:hover {
+    border-color: var(--color-accent);
+}
+
+.emptyButtonSecondary svg {
+    width: 1.125rem;
+    height: 1.125rem;
+}
+
+.memoriesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.memoryCard {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.memoryCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-color: var(--color-accent);
+}
+
+.memoryImage {
+    position: relative;
+    aspect-ratio: 4/3;
+    background: var(--color-bg-alt);
+}
+
+.memoryPlaceholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+}
+
+.memoryPlaceholder svg {
+    width: 3rem;
+    height: 3rem;
+}
+
+.videoOverlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.videoOverlay svg {
+    width: 3rem;
+    height: 3rem;
+    color: white;
+}
+
+.memoryType {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 0.375rem;
+    color: white;
+}
+
+.memoryType svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+.memoryInfo {
+    padding: 1rem;
+}
+
+.memoryInfo h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 0.5rem;
+}
+
+.memoryMeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+}
+
+.memoryMeta span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.memoryMeta svg {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+.memoryPeople {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--color-accent);
+}
+
+.memoryPeople svg {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+/* ============================================
+   MODALS - SHARED STYLES
+   ============================================ */
+
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+    backdrop-filter: blur(4px);
+}
+
+.modalHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.modalHeader h2 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+}
+
+.modalClose {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    background: var(--color-bg-alt);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: all 0.2s ease;
+}
+
+.modalClose:hover {
+    background: var(--color-border);
+    color: var(--color-text);
+}
+
+.modalClose svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.modalError {
+    margin: 1rem 1.5rem 0;
+    padding: 0.75rem 1rem;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 0.5rem;
+    color: #dc2626;
+    font-size: 0.875rem;
+}
+
+.modalForm {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.modalActions {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid var(--color-border);
+    justify-content: flex-end;
+}
+
+.btnSecondary {
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btnSecondary:hover {
+    background: var(--color-bg-alt);
+}
+
+.btnPrimary {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btnPrimary:hover:not(:disabled) {
+    box-shadow: 0 4px 12px rgba(196, 149, 106, 0.3);
+}
+
+.btnPrimary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ============================================
+   ADD EXISTING MEMORIES MODAL
+   ============================================ */
+
+.addMemoriesModal {
+    background: var(--color-card);
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 800px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modalToolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.selectAllBtn {
+    padding: 0.5rem 1rem;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.selectAllBtn:hover {
+    background: var(--color-border);
+}
+
+.selectedCount {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+}
+
+.memoriesPickerGrid {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+    min-height: 300px;
+}
+
+.loadingState,
+.emptyPickerState {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    color: var(--color-text-muted);
+    text-align: center;
+}
+
+.loadingState svg,
+.emptyPickerState svg {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.memoryPickerCard {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.memoryPickerCard:hover {
+    transform: translateY(-2px);
+}
+
+.memoryPickerImage {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    border: 3px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.memoryPickerCard.selected .memoryPickerImage {
+    border-color: var(--color-accent);
+}
+
+.memoryPickerPlaceholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-alt);
+    color: var(--color-text-muted);
+}
+
+.memoryPickerPlaceholder svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+.selectedOverlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(196, 149, 106, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.selectedOverlay svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+.memoryPickerTitle {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--color-text);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ============================================
+   CREATE MEMORY MODAL
+   ============================================ */
+
+.createMemoryModal {
+    background: var(--color-card);
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    animation: modalSlideIn 0.3s ease;
+}
+
+/* Dropzone */
+.dropzone {
+    border: 2px dashed var(--color-border);
+    border-radius: 0.75rem;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-muted);
+    min-height: 160px;
+}
+
+.dropzone:hover,
+.dropzoneActive {
+    border-color: var(--color-accent);
+    background: rgba(196, 149, 106, 0.05);
+}
+
+.dropzone>svg {
+    width: 2.5rem;
+    height: 2.5rem;
+    opacity: 0.5;
+}
+
+.dropzone p {
+    font-weight: 500;
+    color: var(--color-text);
+    margin: 0;
+}
+
+.dropzone span {
+    font-size: 0.75rem;
+}
+
+.multipleHint {
+    margin-top: 0.5rem;
+    color: var(--color-accent);
+    font-weight: 500;
+}
+
+/* Preview Grid */
+.previewGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.previewItem {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.previewItem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.removePreview {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.previewItem:hover .removePreview {
+    opacity: 1;
+}
+
+.removePreview svg {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+.addMorePreview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    background: var(--color-bg-alt);
+    border: 2px dashed var(--color-border);
+    border-radius: 0.5rem;
+    color: var(--color-text-muted);
+    gap: 0.25rem;
+}
+
+.addMorePreview svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.addMorePreview span {
+    font-size: 0.6875rem;
+}
+
+/* Form Groups */
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.formGroup label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.labelIcon {
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-text-muted);
+}
+
+.labelHint {
+    font-weight: 400;
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+}
+
+.formGroup input,
+.formGroup textarea {
+    padding: 0.75rem 1rem;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    font-size: 0.9375rem;
+    color: var(--color-text);
+    transition: all 0.2s ease;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    background: var(--color-card);
+}
+
+.formGroup textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* Tags */
+.tagGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tagChip {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1.5px solid var(--color-border);
+    border-radius: 2rem;
+    font-size: 0.8125rem;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tagChip:hover {
+    border-color: var(--color-accent);
+}
+
+.tagSelected {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: white;
+}
+
+/* Progress Bar */
+.progressBar {
+    position: relative;
+    height: 2rem;
+    background: var(--color-bg-alt);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.progressFill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+    transition: width 0.3s ease;
+}
+
+.progressBar span {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .headerInner {
+        padding: 0.75rem 1rem;
+    }
+
+    .backBtn span {
+        display: none;
+    }
+
+    .addMemoriesBtn span {
+        display: none;
+    }
+
+    .albumInfoInner {
+        padding: 0 1rem;
+    }
+
+    .albumTitle {
+        font-size: 1.75rem;
+    }
+
+    .main {
+        padding: 1rem;
+    }
+
+    .memoriesGrid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .addMemoriesModal {
+        max-height: 90vh;
+    }
+
+    .memoriesPickerGrid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+
+    .createMemoryModal {
+        max-width: 100%;
+        max-height: 95vh;
+        border-radius: 1rem 1rem 0 0;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .formRow {
+        grid-template-columns: 1fr;
+    }
+
+    .modalActions {
+        flex-direction: column;
+    }
+
+    .btnSecondary,
+    .btnPrimary {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .emptyActions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .emptyButtonPrimary,
+    .emptyButtonSecondary {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ============================================
+   EDIT ALBUM MODAL
+   ============================================ */
+
+.editModal {
+    background: var(--color-card);
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    animation: modalSlideIn 0.3s ease;
+}
+
+/* ============================================
+   DELETE ALBUM MODAL
+   ============================================ */
+
+.deleteModal {
+    background: var(--color-card);
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    animation: modalSlideIn 0.3s ease;
+}
+
+.deleteContent {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.deleteWarning {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fef2f2;
+    border-radius: 50%;
+    color: #dc2626;
+}
+
+.deleteWarning svg {
+    width: 2rem;
+    height: 2rem;
+}
+
+.deleteContent p {
+    color: var(--color-text);
+    margin: 0 0 1rem;
+    line-height: 1.6;
+}
+
+.deleteContent strong {
+    color: var(--color-text);
+}
+
+.deleteNote {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    background: var(--color-bg-alt);
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.deleteContent .formGroup {
+    text-align: left;
+    margin-bottom: 1rem;
+}
+
+.btnDanger {
+    padding: 0.75rem 1.5rem;
+    background: #dc2626;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btnDanger:hover:not(:disabled) {
+    background: #b91c1c;
+}
+
+.btnDanger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ============================================
+   SHARE ALBUM MODAL
+   ============================================ */
+
+.shareModal {
+    background: var(--color-card);
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    animation: modalSlideIn 0.3s ease;
+}
+
+.shareContent {
+    padding: 1.5rem;
+}
+
+.shareAlbumName {
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-style: italic;
+    color: var(--color-text);
+    margin: 0 0 1.5rem;
+}
+
+.copyLinkSection {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.linkDisplay {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.linkDisplay svg {
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+}
+
+.linkDisplay span {
+    font-size: 0.875rem;
+    color: var(--color-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.copyBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--color-accent);
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.copyBtn:hover {
+    background: var(--color-accent-hover);
+}
+
+.copyBtn svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+.socialShare {
+    border-top: 1px solid var(--color-border);
+    padding-top: 1.5rem;
+}
+
+.socialShare p {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin: 0 0 1rem;
+    text-align: center;
+}
+
+.socialButtons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.socialBtn {
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.socialBtn:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.socialBtn svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}

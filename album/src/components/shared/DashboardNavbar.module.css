@@ -1,0 +1,443 @@
+/* DashboardNavbar.module.css */
+
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(253, 248, 243, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.navInner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.875rem 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+}
+
+.logoIcon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+    box-shadow: 0 2px 8px rgba(196, 149, 106, 0.25);
+}
+
+.logoIcon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: white;
+    fill: white;
+}
+
+.logoText {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.logoTextMuted {
+    font-weight: 400;
+    color: var(--color-text-muted);
+    margin-left: 0.125rem;
+}
+
+/* Desktop Navigation */
+.navLinks {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+@media (min-width: 768px) {
+    .navLinks {
+        display: flex;
+    }
+}
+
+.navLink {
+    padding: 0.5rem 1rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.navLink:hover {
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+}
+
+.navLinkActive {
+    color: white;
+    background: var(--color-accent);
+}
+
+.navLinkActive:hover {
+    color: white;
+    background: var(--color-accent-hover);
+}
+
+/* Actions */
+.navActions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.addButton {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(196, 149, 106, 0.25);
+}
+
+@media (min-width: 640px) {
+    .addButton {
+        display: flex;
+    }
+}
+
+.addButton:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(196, 149, 106, 0.35);
+}
+
+.addButton svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* User Menu */
+.userMenuWrapper {
+    position: relative;
+}
+
+.userButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem;
+    padding-right: 0.5rem;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.userButton:hover {
+    border-color: var(--color-accent);
+}
+
+.userAvatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.chevron {
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-text-muted);
+}
+
+.menuBackdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+}
+
+.userMenu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    width: 220px;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    z-index: 100;
+    animation: menuSlide 0.2s ease;
+}
+
+@keyframes menuSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.userMenuHeader {
+    padding: 1rem;
+    background: var(--color-bg-alt);
+}
+
+.userName {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--color-text);
+    margin: 0;
+}
+
+.userEmail {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin: 0.25rem 0 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.userMenuDivider {
+    height: 1px;
+    background: var(--color-border);
+}
+
+.userMenuItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: var(--color-text);
+    background: none;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.userMenuItem:hover {
+    background: var(--color-bg-alt);
+}
+
+.userMenuItem svg {
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-text-muted);
+}
+
+.userMenuItemDanger {
+    color: #dc2626;
+}
+
+.userMenuItemDanger svg {
+    color: #dc2626;
+}
+
+/* Mobile Menu Button */
+.mobileMenuBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+    .mobileMenuBtn {
+        display: none;
+    }
+}
+
+.mobileMenuBtn svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Mobile Menu */
+.mobileBackdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 200;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.mobileMenu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 320px;
+    background: var(--color-card);
+    z-index: 201;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.mobileMenuHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.mobileCloseBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: var(--color-bg-alt);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    color: var(--color-text-muted);
+}
+
+.mobileUserInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--color-bg-alt);
+    border-radius: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.mobileNavLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
+}
+
+.mobileNavLink {
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text);
+    text-decoration: none;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.mobileNavLink:hover {
+    background: var(--color-bg-alt);
+}
+
+.mobileNavLinkActive {
+    background: var(--color-accent);
+    color: white;
+}
+
+.mobileActions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.mobileAddBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.mobileAddBtn svg {
+    width: 1.125rem;
+    height: 1.125rem;
+}
+
+.mobileSignOutBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem;
+    background: transparent;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.mobileSignOutBtn svg {
+    width: 1.125rem;
+    height: 1.125rem;
+}
