@@ -627,3 +627,27 @@
         justify-content: center;
     }
 }
+
+/* ============================================
+   ADD THESE STYLES TO GalleryPage.module.css
+   ============================================ */
+
+/* Filter Label Row - for Tags section with Add Tag button */
+.filterLabelRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+/* No tags hint message */
+.noTagsHint {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin: 0;
+    padding: 0.75rem;
+    background: var(--color-bg-alt);
+    border-radius: 0.5rem;
+    text-align: center;
+}

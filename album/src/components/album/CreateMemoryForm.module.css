@@ -436,3 +436,202 @@
         display: none;
     }
 }
+
+/* Additional styles for multi-file upload - ADD these to your existing CreateMemoryForm.module.css */
+
+/* Upload Section Container */
+.uploadSection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* File Count Info */
+.uploadInfo {
+    display: flex;
+    gap: 1.5rem;
+    padding: 0.5rem 0;
+}
+
+.uploadInfo span {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+}
+
+.uploadInfo svg {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+/* Preview Grid */
+.previewGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.previewCard {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+}
+
+.previewCard .previewMedia {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.previewType {
+    position: absolute;
+    top: 0.375rem;
+    left: 0.375rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 0.25rem;
+    color: white;
+}
+
+.previewType svg {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+.previewCard .removeFile {
+    position: absolute;
+    top: 0.375rem;
+    right: 0.375rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(220, 38, 38, 0.9);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.previewCard:hover .removeFile {
+    opacity: 1;
+}
+
+.previewCard .removeFile svg {
+    width: 0.75rem;
+    height: 0.75rem;
+}
+
+/* Add More Button */
+.addMoreBtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    aspect-ratio: 1;
+    background: var(--color-bg-alt);
+    border: 2px dashed var(--color-border);
+    border-radius: 0.5rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.addMoreBtn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background: rgba(196, 149, 106, 0.05);
+}
+
+.addMoreBtn svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.addMoreBtn span {
+    font-size: 0.6875rem;
+    font-weight: 500;
+}
+
+/* Label Hint */
+.labelHint {
+    font-weight: 400;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin-left: 0.25rem;
+}
+
+/* Progress Section */
+.progressSection {
+    padding: 1rem;
+    background: var(--color-bg-alt);
+    border-radius: 0.5rem;
+}
+
+.progressInfo {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--color-text);
+}
+
+.progressBar {
+    height: 0.5rem;
+    background: var(--color-border);
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-hover));
+    border-radius: 1rem;
+    transition: width 0.3s ease;
+}
+
+/* Error with icon */
+.error {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 0.5rem;
+    color: #dc2626;
+    font-size: 0.875rem;
+}
+
+.error svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .previewGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .uploadInfo {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}

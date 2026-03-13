@@ -21,6 +21,7 @@ import {
 } from 'lucide-react'
 import DashboardNavbar from '@/components/shared/DashboardNavbar'
 import DashboardFooter from '@/components/dashboard/DashboardFooter'
+import TagManager from '@/components/gallery/TagManager'
 import styles from './GalleryPage.module.css'
 
 interface Memory {
@@ -41,7 +42,7 @@ interface Memory {
     commentCount: number
 }
 
-interface Tag {
+interface TagType {
     id: string
     name: string
     color: string | null
@@ -55,7 +56,7 @@ interface Album {
 interface GalleryPageClientProps {
     user: { id?: string; name?: string | null; email?: string | null }
     memories: Memory[]
-    tags: Tag[]
+    tags: TagType[]
     albums: Album[]
 }
 
@@ -71,6 +72,9 @@ export default function GalleryPageClient({ user, memories, tags, albums }: Gall
     const [selectedType, setSelectedType] = useState<string | null>(null)
     const [showFilters, setShowFilters] = useState(false)
     const [imageErrors, setImageErrors] = useState<Set<string>>(new Set())
+
+    // Local tags state for dynamic updates when new tags are created
+    const [localTags, setLocalTags] = useState<TagType[]>(tags)
 
     // Filter and sort memories
     const filteredMemories = useMemo(() => {
@@ -141,6 +145,11 @@ export default function GalleryPageClient({ user, memories, tags, albums }: Gall
         setSelectedTags(new Set())
         setSelectedAlbum(null)
         setSelectedType(null)
+    }
+
+    // Handler for when a new tag is created
+    const handleTagCreated = (newTag: TagType) => {
+        setLocalTags(prev => [...prev, newTag])
     }
 
     const hasActiveFilters = searchQuery || selectedTags.size > 0 || selectedAlbum || selectedType
@@ -294,12 +303,18 @@ export default function GalleryPageClient({ user, memories, tags, albums }: Gall
                                 </div>
                             )}
 
-                            {/* Tags Filter */}
-                            {tags.length > 0 && (
-                                <div className={styles.filterGroup}>
+                            {/* Tags Filter - Updated with TagManager */}
+                            <div className={styles.filterGroup}>
+                                <div className={styles.filterLabelRow}>
                                     <label>Tags</label>
+                                    <TagManager
+                                        tags={localTags}
+                                        onTagCreated={handleTagCreated}
+                                    />
+                                </div>
+                                {localTags.length > 0 ? (
                                     <div className={styles.tagChips}>
-                                        {tags.map(tag => (
+                                        {localTags.map(tag => (
                                             <button
                                                 key={tag.id}
                                                 className={`${styles.tagChip} ${selectedTags.has(tag.id) ? styles.tagChipActive : ''}`}
@@ -310,8 +325,12 @@ export default function GalleryPageClient({ user, memories, tags, albums }: Gall
                                             </button>
                                         ))}
                                     </div>
-                                </div>
-                            )}
+                                ) : (
+                                    <p className={styles.noTagsHint}>
+                                        No tags yet. Click "+ Add Tag" to create your first tag!
+                                    </p>
+                                )}
+                            </div>
 
                             {/* Clear Filters */}
                             {hasActiveFilters && (

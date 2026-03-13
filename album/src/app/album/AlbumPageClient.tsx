@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import {
@@ -13,17 +13,12 @@ import {
     ChevronRight,
     Play,
     FileText,
-    Image as ImageIcon,
-    X,
-    Upload,
-    Tag,
-    FolderOpen,
-    Check,
-    Users
+    Image as ImageIcon
 } from 'lucide-react'
 import DashboardNavbar from '@/components/shared/DashboardNavbar'
 import Stats from '@/components/dashboard/Stats'
 import DashboardFooter from '@/components/dashboard/DashboardFooter'
+import CreateMemoryForm from '@/components/album/CreateMemoryForm'
 import styles from './AlbumPage.module.css'
 
 interface Memory {
@@ -89,6 +84,10 @@ export default function AlbumPageClient({
             case 'STORY': return <FileText className={styles.typeIcon} />
             default: return null
         }
+    }
+
+    const handleAddMemorySuccess = () => {
+        window.location.reload()
     }
 
     return (
@@ -198,29 +197,43 @@ export default function AlbumPageClient({
                 <section className={styles.onThisDay}>
                     <div className={styles.sectionContainer}>
                         <div className={styles.sectionHeader}>
-                            <div className={styles.sectionTitleGroup}>
-                                <Calendar className={styles.sectionIcon} />
-                                <div>
-                                    <h2 className={styles.sectionTitle}>On This Day</h2>
-                                    <p className={styles.sectionSubtitle}>Memories from years past</p>
-                                </div>
-                            </div>
-                            <Link href="/timeline" className={styles.viewAllLink}>
-                                View all <ChevronRight />
-                            </Link>
+                            <h2 className={styles.sectionTitle}>
+                                <Calendar />
+                                On This Day
+                            </h2>
+                            <p className={styles.sectionSubtitle}>Memories from years past</p>
                         </div>
 
                         <div className={styles.onThisDayGrid}>
-                            {onThisDayMemories.map((memory) => (
+                            {onThisDayMemories.map(memory => (
                                 <Link
                                     key={memory.id}
                                     href={`/memory/${memory.id}`}
                                     className={styles.onThisDayCard}
                                 >
-                                    <div className={styles.onThisDayEmoji}>{memory.emoji}</div>
-                                    <div className={styles.onThisDayInfo}>
-                                        <h3>{memory.title}</h3>
-                                        <p>{memory.year} • {memory.location || 'Unknown location'}</p>
+                                    <div className={styles.onThisDayImage}>
+                                        {memory.fileUrl && !imageErrors.has(memory.id) ? (
+                                            <Image
+                                                src={memory.thumbnailUrl || memory.fileUrl}
+                                                alt={memory.title}
+                                                fill
+                                                style={{ objectFit: 'cover' }}
+                                                onError={() => handleImageError(memory.id)}
+                                            />
+                                        ) : (
+                                            <div className={styles.onThisDayPlaceholder}>
+                                                <ImageIcon />
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className={styles.onThisDayContent}>
+                                        <span className={styles.onThisDayYear}>{memory.year}</span>
+                                        <p className={styles.onThisDayTitle}>{memory.title}</p>
+                                        {memory.location && (
+                                            <span className={styles.onThisDayLocation}>
+                                                <MapPin /> {memory.location}
+                                            </span>
+                                        )}
                                     </div>
                                 </Link>
                             ))}
@@ -230,54 +243,51 @@ export default function AlbumPageClient({
             )}
 
             {/* Stats Section */}
-            <Stats data={stats} />
+            <section className={styles.statsSection}>
+                <div className={styles.sectionContainer}>
+                    <Stats data={stats} />
+                </div>
+            </section>
 
-            {/* Recent Memories Section */}
+            {/* Recent Memories */}
             <section className={styles.recentMemories}>
                 <div className={styles.sectionContainer}>
                     <div className={styles.sectionHeader}>
-                        <div className={styles.sectionTitleGroup}>
-                            <ImageIcon className={styles.sectionIcon} />
-                            <div>
-                                <h2 className={styles.sectionTitle}>Recent Memories</h2>
-                                <p className={styles.sectionSubtitle}>Latest additions to your collection</p>
-                            </div>
+                        <div>
+                            <h2 className={styles.sectionTitle}>Recent Memories</h2>
+                            <p className={styles.sectionSubtitle}>Latest additions to your collection</p>
                         </div>
                         <Link href="/gallery" className={styles.viewAllLink}>
-                            View all <ChevronRight />
+                            View All <ChevronRight />
                         </Link>
                     </div>
 
                     <div className={styles.memoriesGrid}>
-                        {recentMemories.slice(0, 8).map((memory) => (
+                        {recentMemories.map(memory => (
                             <Link
                                 key={memory.id}
                                 href={`/memory/${memory.id}`}
                                 className={styles.memoryCard}
                             >
                                 <div className={styles.memoryImage}>
-                                    {memory.fileUrl && !imageErrors.has(`recent-${memory.id}`) ? (
-                                        <Image
-                                            src={memory.thumbnailUrl || memory.fileUrl}
-                                            alt={memory.title}
-                                            fill
-                                            style={{ objectFit: 'cover' }}
-                                            onError={() => handleImageError(`recent-${memory.id}`)}
-                                        />
+                                    {memory.fileUrl && !imageErrors.has(memory.id) ? (
+                                        <>
+                                            <Image
+                                                src={memory.thumbnailUrl || memory.fileUrl}
+                                                alt={memory.title}
+                                                fill
+                                                style={{ objectFit: 'cover' }}
+                                                onError={() => handleImageError(memory.id)}
+                                            />
+                                            {getTypeIcon(memory.type)}
+                                        </>
                                     ) : (
                                         <div className={styles.memoryPlaceholder}>
                                             <ImageIcon />
                                         </div>
                                     )}
-                                    {getTypeIcon(memory.type)}
-                                    {memory.commentCount > 0 && (
-                                        <div className={styles.commentBadge}>
-                                            <MessageCircle />
-                                            <span>{memory.commentCount}</span>
-                                        </div>
-                                    )}
                                 </div>
-                                <div className={styles.memoryInfo}>
+                                <div className={styles.memoryContent}>
                                     <h3 className={styles.memoryTitle}>{memory.title}</h3>
                                     <div className={styles.memoryMeta}>
                                         <span><Calendar /> {memory.date}</span>
@@ -285,21 +295,10 @@ export default function AlbumPageClient({
                                             <span><MapPin /> {memory.location}</span>
                                         )}
                                     </div>
-                                    {memory.tags.length > 0 && (
-                                        <div className={styles.memoryTags}>
-                                            {memory.tags.slice(0, 2).map(tag => (
-                                                <span
-                                                    key={tag.id}
-                                                    className={styles.tag}
-                                                    style={tag.color ? { borderColor: tag.color, color: tag.color } : undefined}
-                                                >
-                                                    {tag.name}
-                                                </span>
-                                            ))}
-                                            {memory.tags.length > 2 && (
-                                                <span className={styles.tagMore}>+{memory.tags.length - 2}</span>
-                                            )}
-                                        </div>
+                                    {memory.people.length > 0 && (
+                                        <p className={styles.memoryPeople}>
+                                            {memory.people.map(p => p.name).join(', ')}
+                                        </p>
                                     )}
                                 </div>
                             </Link>
@@ -311,235 +310,12 @@ export default function AlbumPageClient({
             {/* Footer */}
             <DashboardFooter />
 
-            {/* Add Memory Modal */}
-            {showAddModal && (
-                <AddMemoryModal onClose={() => setShowAddModal(false)} />
-            )}
-        </div>
-    )
-}
-
-// Add Memory Modal Component
-function AddMemoryModal({ onClose }: { onClose: () => void }) {
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
-    const [dateTaken, setDateTaken] = useState('')
-    const [location, setLocation] = useState('')
-    const [file, setFile] = useState<File | null>(null)
-    const [preview, setPreview] = useState<string | null>(null)
-    const [availableTags, setAvailableTags] = useState<Array<{ id: string; name: string; color: string | null }>>([])
-    const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set())
-    const [availableAlbums, setAvailableAlbums] = useState<Array<{ id: string; name: string }>>([])
-    const [selectedAlbums, setSelectedAlbums] = useState<Set<string>>(new Set())
-    const [isSubmitting, setIsSubmitting] = useState(false)
-    const [error, setError] = useState('')
-    const [dragActive, setDragActive] = useState(false)
-    const fileInputRef = useRef<HTMLInputElement>(null)
-
-    // Fetch tags and albums on mount
-    useState(() => {
-        fetch('/api/tags').then(r => r.ok ? r.json() : []).then(setAvailableTags).catch(() => { })
-        fetch('/api/albums/list').then(r => r.ok ? r.json() : []).then(setAvailableAlbums).catch(() => { })
-    })
-
-    const handleFileSelect = (selectedFile: File) => {
-        setFile(selectedFile)
-        const reader = new FileReader()
-        reader.onloadend = () => setPreview(reader.result as string)
-        reader.readAsDataURL(selectedFile)
-    }
-
-    const handleDrop = (e: React.DragEvent) => {
-        e.preventDefault()
-        setDragActive(false)
-        const droppedFile = e.dataTransfer.files[0]
-        if (droppedFile) handleFileSelect(droppedFile)
-    }
-
-    const toggleTag = (tagId: string) => {
-        setSelectedTags(prev => {
-            const newSet = new Set(prev)
-            newSet.has(tagId) ? newSet.delete(tagId) : newSet.add(tagId)
-            return newSet
-        })
-    }
-
-    const toggleAlbum = (albumId: string) => {
-        setSelectedAlbums(prev => {
-            const newSet = new Set(prev)
-            newSet.has(albumId) ? newSet.delete(albumId) : newSet.add(albumId)
-            return newSet
-        })
-    }
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-        if (!title.trim()) { setError('Title is required'); return }
-        if (!file) { setError('Please select a file'); return }
-
-        setIsSubmitting(true)
-        setError('')
-
-        try {
-            const formData = new FormData()
-            formData.append('file', file)
-            formData.append('title', title.trim())
-            formData.append('description', description.trim())
-            if (dateTaken) formData.append('dateTaken', dateTaken)
-            if (location) formData.append('location', location.trim())
-            formData.append('tagIds', JSON.stringify(Array.from(selectedTags)))
-            formData.append('albumIds', JSON.stringify(Array.from(selectedAlbums)))
-
-            const response = await fetch('/api/memories', {
-                method: 'POST',
-                body: formData
-            })
-
-            if (!response.ok) throw new Error('Failed to create memory')
-
-            onClose()
-            window.location.reload()
-        } catch (err) {
-            setError('Failed to save memory. Please try again.')
-        } finally {
-            setIsSubmitting(false)
-        }
-    }
-
-    return (
-        <div className={styles.modalOverlay} onClick={onClose}>
-            <div className={styles.modal} onClick={e => e.stopPropagation()}>
-                <div className={styles.modalHeader}>
-                    <h2>Add New Memory</h2>
-                    <button onClick={onClose} className={styles.modalClose}>
-                        <X />
-                    </button>
-                </div>
-
-                <form onSubmit={handleSubmit} className={styles.modalForm}>
-                    {error && <div className={styles.modalError}>{error}</div>}
-
-                    {/* File Upload */}
-                    <div
-                        className={`${styles.dropzone} ${dragActive ? styles.dropzoneActive : ''}`}
-                        onDragOver={(e) => { e.preventDefault(); setDragActive(true) }}
-                        onDragLeave={() => setDragActive(false)}
-                        onDrop={handleDrop}
-                        onClick={() => fileInputRef.current?.click()}
-                    >
-                        {preview ? (
-                            <img src={preview} alt="Preview" className={styles.preview} />
-                        ) : (
-                            <>
-                                <Upload />
-                                <p>Drag and drop or click to upload</p>
-                                <span>JPEG, PNG, GIF, WebP, MP4 (max 50MB)</span>
-                            </>
-                        )}
-                        <input
-                            ref={fileInputRef}
-                            type="file"
-                            accept="image/*,video/*"
-                            onChange={(e) => e.target.files?.[0] && handleFileSelect(e.target.files[0])}
-                            hidden
-                        />
-                    </div>
-
-                    {/* Title */}
-                    <div className={styles.formGroup}>
-                        <label>Title *</label>
-                        <input
-                            type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            placeholder="Give this memory a title..."
-                        />
-                    </div>
-
-                    {/* Description */}
-                    <div className={styles.formGroup}>
-                        <label>Description</label>
-                        <textarea
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            placeholder="Tell the story behind this memory..."
-                            rows={3}
-                        />
-                    </div>
-
-                    {/* Date and Location */}
-                    <div className={styles.formRow}>
-                        <div className={styles.formGroup}>
-                            <label><Calendar /> Date</label>
-                            <input
-                                type="date"
-                                value={dateTaken}
-                                onChange={(e) => setDateTaken(e.target.value)}
-                            />
-                        </div>
-                        <div className={styles.formGroup}>
-                            <label><MapPin /> Location</label>
-                            <input
-                                type="text"
-                                value={location}
-                                onChange={(e) => setLocation(e.target.value)}
-                                placeholder="Where was this?"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Tags */}
-                    {availableTags.length > 0 && (
-                        <div className={styles.formGroup}>
-                            <label><Tag /> Tags</label>
-                            <div className={styles.chipGrid}>
-                                {availableTags.map(tag => (
-                                    <button
-                                        key={tag.id}
-                                        type="button"
-                                        className={`${styles.chip} ${selectedTags.has(tag.id) ? styles.chipSelected : ''}`}
-                                        onClick={() => toggleTag(tag.id)}
-                                        style={tag.color ? { borderColor: tag.color } : undefined}
-                                    >
-                                        {tag.name}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Albums */}
-                    {availableAlbums.length > 0 && (
-                        <div className={styles.formGroup}>
-                            <label><FolderOpen /> Add to Albums</label>
-                            <div className={styles.albumChipGrid}>
-                                {availableAlbums.map(album => (
-                                    <button
-                                        key={album.id}
-                                        type="button"
-                                        className={`${styles.albumChip} ${selectedAlbums.has(album.id) ? styles.albumChipSelected : ''}`}
-                                        onClick={() => toggleAlbum(album.id)}
-                                    >
-                                        <FolderOpen />
-                                        <span>{album.name}</span>
-                                        {selectedAlbums.has(album.id) && <Check />}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Actions */}
-                    <div className={styles.modalActions}>
-                        <button type="button" onClick={onClose} className={styles.btnSecondary}>
-                            Cancel
-                        </button>
-                        <button type="submit" disabled={isSubmitting} className={styles.btnPrimary}>
-                            {isSubmitting ? 'Saving...' : '✓ Save Memory'}
-                        </button>
-                    </div>
-                </form>
-            </div>
+            {/* Use the shared CreateMemoryForm component */}
+            <CreateMemoryForm
+                isOpen={showAddModal}
+                onClose={() => setShowAddModal(false)}
+                onSuccess={handleAddMemorySuccess}
+            />
         </div>
     )
 }
